@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🌌 My To-Do List</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .video-icon {
+      font-size: 22px;
+      margin-left: 10px;
+      vertical-align: middle;
+      opacity: 0.7;
+      transition: transform 0.3s ease;
+    }
+    .video-icon:hover {
+      transform: scale(1.2);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background stars -->
+  <div class="stars"></div>
+
+  <!-- Glass container -->
+  <div class="container">
+    <h1>
+      PLANIX <span class="video-icon">📘🖇</span>
+    </h1>
+
+    <!-- Task + time input -->
+    <div class="input-section">
+      <input type="text" id="taskInput" placeholder="Enter task🖋">
+      <input type="time" id="timeInput">
+      <button onclick="addTask()">Add</button>
+    </div>
+
+    <!-- Error -->
+    <p id="error" style="color: #ffbaba; display: none; font-size: 14px;">⚠ Please enter a task!</p>
+
+    <!-- Task list -->
+    <ul id="taskList"></ul>
+  </div>
+
+  <!-- Confetti library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  
+  <script>
+    // Helper: random range for confetti
+    function randomInRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    // Trigger confetti 🎉
+    function launchConfetti() {
+      confetti({
+        angle: randomInRange(55, 125),
+        spread: randomInRange(50, 70),
+        particleCount: randomInRange(50, 100),
+        origin: { y: 0.6 },
+      });
+    }
+
+    function addTask() {
+      const taskInput = document.getElementById("taskInput");
+      const timeInput = document.getElementById("timeInput");
+      const taskText = taskInput.value.trim();
+      const taskTime = timeInput.value;
+      const error = document.getElementById("error");
+
+      if (taskText === "") {
+        error.style.display = "block";
+        return;
+      } else {
+        error.style.display = "none";
+      }
+
+      const taskList = document.getElementById("taskList");
+      const li = document.createElement("li");
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.style.marginRight = "10px";
+      checkbox.onclick = () => {
+        if (checkbox.checked) {
+          taskTextSpan.style.textDecoration = "line-through";
+          taskTextSpan.style.opacity = "0.6";
+          launchConfetti(); // 🎉 confetti when task is completed
+        } else {
+          taskTextSpan.style.textDecoration = "none";
+          taskTextSpan.style.opacity = "1";
+        }
+      };
+
+      const taskTextSpan = document.createElement("span");
+      taskTextSpan.innerHTML = <strong>${taskText}</strong> +
+        (taskTime ? ` <small style="color:#ccc;">[Due: ${taskTime}]</small>` : "");
+      taskTextSpan.style.flex = "1";
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "Delete🗑";
+      deleteBtn.className = "delete-btn";
+      deleteBtn.onclick = () => li.remove();
+
+      li.appendChild(checkbox);
+      li.appendChild(taskTextSpan);
+      li.appendChild(deleteBtn);
+      taskList.appendChild(li);
+
+      taskInput.value = "";
+      timeInput.value = "";
+
+      // 🎉 confetti when task is added
+      launchConfetti();
+    }
+
+    document.getElementById("taskInput").addEventListener("keyup", function(e) {
+      if (e.key === "Enter") addTask();
+    });
+  </script>
+</body>
+</html>

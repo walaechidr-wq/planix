@@ -1,0 +1,142 @@
+/* Background styles */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1740&q=80') no-repeat center center fixed;
+  overflow: hidden;
+  color: #363f66;
+  height: 100vh;
+}
+
+.stars, .twinkling {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+}
+
+.stars {
+  background: transparent url('https://raw.githubusercontent.com/VincentGarreau/particles.js/master/demo/media/star.png') repeat;
+  animation: moveStars 200s linear infinite;
+  opacity: 0.4;
+}
+
+.twinkling {
+  background: transparent url('https://raw.githubusercontent.com/VincentGarreau/particles.js/master/demo/media/twinkling.png') repeat;
+  animation: moveTwinkling 100s linear infinite;
+  opacity: 0.5;
+}
+
+@keyframes moveStars {
+  from {background-position: 0 0;}
+  to {background-position: -10000px 5000px;}
+}
+
+@keyframes moveTwinkling {
+  from {background-position: 0 0;}
+  to {background-position: 10000px 0;}
+}
+
+/* Glass effect */
+.container {
+  z-index: 1;
+  position: relative;
+  margin: 60px auto;
+  width: 90%;
+  max-width: 500px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 20px 30px;
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+}
+
+h1 {
+  text-align: center;
+  color: #221e47;
+  font-weight: 600;
+}
+
+/* Input section */
+.input-section {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.input-section input[type="text"], .input-section input[type="time"] {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: rgba(255,255,255,0.2);
+  color: rgb(52, 28, 116);
+}
+
+.input-section button {
+  padding: 10px 14px;
+  background: #6c63ff;
+  color: rgb(78, 68, 68);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.input-section button:hover {
+  background: #231cb1;
+}
+
+.error {
+  color: #ffbaba;
+  font-size: 13px;
+  display: none;
+}
+
+/* Task list */
+ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 15px;
+}
+
+li {
+  background-color: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: 0.2s;
+}
+
+li.overdue {
+  border-left: 4px solid #ff6b6b;
+}
+
+.task-text {
+  flex: 1;
+}
+
+.task-text small {
+  color: rgb(19, 19, 44);
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+.task-text.done {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.delete-btn {
+  background: transparent;
+  color: #ff6b6b;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
