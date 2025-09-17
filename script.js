@@ -88,7 +88,7 @@ function renderTasks() {
 
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "delete-btn";
-    deleteBtn.innerText = "❌ ";
+    deleteBtn.innerText = "❌  ";
     deleteBtn.onclick = () => {
       tasks.splice(index, 1);
       saveTasksToStorage(tasks);
