@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🌌 My To-Do List!!</title>
+  <title>🌌 My To-Do List</title>
   <link rel="stylesheet" href="style.css"/>
   <style>
     .video-icon {
@@ -34,7 +34,7 @@
     <div class="input-section">
       <input type="text" id="taskInput" placeholder="Enter task🖋">
       <input type="time" id="timeInput">
-      <button id="addBtn">Add</button>
+      <button onclick="addTask()">Add</button>
     </div>
 
     <!-- Error -->
@@ -47,7 +47,7 @@
   <!-- Confetti library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   
-  <script src="script.js">
+  <script>
     // Helper: random range for confetti
     function randomInRange(min, max) {
       return Math.random() * (max - min) + min;
