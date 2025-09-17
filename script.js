@@ -9,7 +9,21 @@ window.onload = function () {
   loadTasks();
 };
 
+// Confetti helper
+function randomInRange(min, max) {
+  return Math.random() * (max - min) + min;
+}
 
+function launchConfetti() {
+  confetti({
+    angle: randomInRange(55, 125),
+    spread: randomInRange(50, 70),
+    particleCount: Math.floor(randomInRange(50, 100)),
+    origin: { y: 0.6 },
+  });
+}
+
+// Add task
 function addTask() {
   const taskText = taskInput.value.trim();
   const taskTime = timeInput.value;
@@ -34,7 +48,9 @@ function addTask() {
   renderTasks();
   taskInput.value = "";
   timeInput.value = "";
-  addSound.play();
+
+  try { addSound.play(); } catch(e) {}
+  launchConfetti();
 }
 
 // Get tasks from localStorage
@@ -65,14 +81,16 @@ function renderTasks() {
 
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
+    checkbox.className = "task-checkbox";
     checkbox.checked = task.done;
 
     const taskTextSpan = document.createElement("span");
-    taskTextSpan.innerHTML = task.text;
+    taskTextSpan.textContent = task.text;
+
     if (task.time) {
       const timeSpan = document.createElement("span");
       timeSpan.className = "task-time";
-      timeSpan.innerText = ` [${task.time}]`;
+      timeSpan.innerText = [${task.time}];
       taskTextSpan.appendChild(timeSpan);
     }
 
@@ -80,15 +98,16 @@ function renderTasks() {
       taskTextSpan.classList.add("done");
     }
 
-    checkbox.onclick = () => {
+    checkbox.onchange = () => {
       tasks[index].done = checkbox.checked;
       saveTasksToStorage(tasks);
       renderTasks();
+      if (checkbox.checked) launchConfetti();
     };
 
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "delete-btn";
-    deleteBtn.innerText = "❌  ";
+    deleteBtn.innerText = "❌";
     deleteBtn.onclick = () => {
       tasks.splice(index, 1);
       saveTasksToStorage(tasks);
@@ -103,37 +122,10 @@ function renderTasks() {
     taskList.appendChild(li);
   });
 }
-const cofetti=()=>{
-  function randomInRange(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-  
-  confetti({
-    angle: randomInRange(55, 125),
-    spread: randomInRange(50, 70),
-    particleCount: randomInRange(50, 100),
-    origin: { y: 0.6 },
-  });
 
-};
-// Fonction pour générer un nombre aléatoire dans une plage
-function randomInRange(min, max) {
-  return Math.random() * (max - min) + min;
-}
-
-// Fonction qui lance les confettis 🎉
-function launchConfetti() {
-  confetti({
-    angle: randomInRange(55, 125),
-    spread: randomInRange(50, 70),
-    particleCount: Math.floor(randomInRange(50, 100)),
-    origin: { y: 0.6 },
-  });
-}
-
-// Fonction qui vérifie si toutes les tâches sont cochées
+// Check if all tasks are completed
 function checkAllTasksCompleted() {
-  const checkboxes = document.querySelectorAll('.task-checkbox'); // change si tu as une autre classe
+  const checkboxes = document.querySelectorAll('.task-checkbox');
   const allChecked = Array.from(checkboxes).every(cb => cb.checked);
 
   if (allChecked && checkboxes.length > 0) {
@@ -141,11 +133,13 @@ function checkAllTasksCompleted() {
   }
 }
 
-// Attacher l'écouteur à toutes les checkboxes au chargement de la page
-document.addEventListener('DOMContentLoaded', () => {
-  const checkboxes = document.querySelectorAll('.task-checkbox');
+// Attach listener for "Enter" key and button
+document.getElementById("addBtn").addEventListener("click", addTask);
+taskInput.addEventListener("keyup", function(e) {
+  if (e.key === "Enter") addTask();
+});
 
-  checkboxes.forEach(cb => {
-    cb.addEventListener('change', checkAllTasksCompleted);
-  });
+// Attach listeners for completion check
+document.addEventListener('DOMContentLoaded', () => {
+  taskList.addEventListener("change", checkAllTasksCompleted);
 });
