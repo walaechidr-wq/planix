@@ -95,7 +95,7 @@
       };
 
       const taskTextSpan = document.createElement("span");
-      taskTextSpan.innerHTML = <strong>${taskText}</strong> +
+      taskTextSpan.innerHTML = `<strong>${taskText}</strong>` +
         (taskTime ? ` <small style="color:#ccc;">[Due: ${taskTime}]</small>` : "");
       taskTextSpan.style.flex = "1";
 
